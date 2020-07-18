@@ -26,7 +26,7 @@ Clone the git repository in a folder **CSII** in your home directory.
 
 ### Connect and prepare
 
-Connect to your Duckiebot  
+Connect to your Duckiebot
 
     duckiebot $ cd ~/CSII/
     duckiebot $ make -i connect-![vehicle_name]  
@@ -58,10 +58,10 @@ A new window will open. Whenever the window focus is on that window, you're able
 
   | KEY            | MOVEMENT                    |
   | -------------- | --------------------------- |
-  | ARROWKEYS    	 | Steer your Duckiebot        |
-  | <kbd>A</kbd> 	 | Steer your Duckiebot        |
-  | <kbd>S</kbd> 	 | Stop lane followin        	 |
-  | <kbd>Q</kbd> 	 | Quit the virtual joystick 	 |
+  | ARROWKEYS      | Steer your Duckiebot        |
+  | <kbd>A</kbd>   | Steer your Duckiebot        |
+  | <kbd>S</kbd>   | Stop lane followin          |
+  | <kbd>Q</kbd>   | Quit the virtual joystick 	 |
 
 
 As soon as both the virtual joystick and exercise 1 are running, let your Duckiebot follow the lanes by placing it into a road and hitting <kbd>A</kbd> while your window focus is on the virtual joystick. Be ready to press <kbd>S</kbd> in case your Duckiebot moves out of the lane or you need to stop it for some other reason.
@@ -88,9 +88,9 @@ After editing, save the file (<kbd>Ctrl</kbd>-<kbd>S</kbd> in Atom) and navigate
     laptop $ cd ~/CSII/
     laptop $ make copy-to-![vehicle_name]
 
-Note that this will overwrite the content of **CSII** folder at Duckiebot!  
+Note that this will overwrite the content of **CSII** folder at Duckiebot!
 
-In order to check that changed files are copied to Duckiebot open the file with **vim**.  
+In order to check that changed files are copied to Duckiebot open the file with **vim**.
 
     duckiebot $ vim CSII/Exercises/HWExercise1/controller-1.py
 

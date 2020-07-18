@@ -21,20 +21,21 @@ To obtain this map, we use many modules which can be independently modified and 
 
 ## Expected results
 By the end of this demo, you should be able to visualize a map of the colored lanes which were seen by the duckiebot whose log you are using, as illustrated below:
+
 <figure>
     <figcaption>Examples of expected visualizations at different time steps: </figcaption>
-	<figure>
-	    <figcaption>Map after 15 seconds</figcaption>
-	    <img style='width:20em; height:15em' src="figures/map1.png"/>
-	</figure>
-	<figure>
-	    <figcaption>Map after 30 seconds</figcaption>
-	    <img style='width:20em; height:15em' src="figures/map2.png"/>
-	</figure>
-	<figure>
-	    <figcaption>Map after 60 seconds</figcaption>
-	    <img style='width:20em; height:15em' src="figures/map3.png"/>
-	</figure>
+    <figure>
+        <figcaption>Map after 15 seconds</figcaption>
+        <img style='width:20em; height:15em' src="figures/map1.png"/>
+    </figure>
+    <figure>
+        <figcaption>Map after 30 seconds</figcaption>
+        <img style='width:20em; height:15em' src="figures/map2.png"/>
+    </figure>
+    <figure>
+        <figcaption>Map after 60 seconds</figcaption>
+        <img style='width:20em; height:15em' src="figures/map3.png"/>
+    </figure>
 </figure>
 
 ## Instructions
@@ -67,12 +68,12 @@ Now to see how we got there you curious duck, read the following sections! You c
 ### Overview of the modules
 Many different modules are used to build the lane map we plan to obtain. Here is a list of which modules we have and how they are combined:
 
-* _Line detector_ module: takes an image input and outputs detected lines.  
-* _Line descriptor_ module: takes line segments from the detector and produces descriptors.  
-* _Ground projection_ module: takes line segments from the detector and outputs its 2D position on the ground relative to the robot.  
-* _Line sanity_ module: takes ground projected segments and filters out some incoherent segments.  
-* _Odometry module_: takes an input from the logs (in our case wheel commands) and produces an estimate of the duckiebot's position.  
-* _Show map module_: takes the estimated position from odometry and the ground projected lines to build and display a map of the lines.  
+* _Line detector_ module: takes an image input and outputs detected lines.
+* _Line descriptor_ module: takes line segments from the detector and produces descriptors.
+* _Ground projection_ module: takes line segments from the detector and outputs its 2D position on the ground relative to the robot.
+* _Line sanity_ module: takes ground projected segments and filters out some incoherent segments.
+* _Odometry module_: takes an input from the logs (in our case wheel commands) and produces an estimate of the duckiebot's position.
+* _Show map module_: takes the estimated position from odometry and the ground projected lines to build and display a map of the lines.
 
 
 You will find more detailed descriptions of every module below, as well as instructions to experiment with them.
@@ -80,9 +81,9 @@ You will find more detailed descriptions of every module below, as well as instr
 ### Line Detector  (`lane_slam/src/line_detector`)
 *Explanation:*
 
-This package is an enhanced version of the `line_detector` from the Duckietown `lane_control` stack. This node subscribes to a topic that publishes a `CompressedImage` message type, detects line segments in that image, and publishes the detected line segments, their normals, color, and position information in the form of a `SegmentList` message.  
+This package is an enhanced version of the `line_detector` from the Duckietown `lane_control` stack. This node subscribes to a topic that publishes a `CompressedImage` message type, detects line segments in that image, and publishes the detected line segments, their normals, color, and position information in the form of a `SegmentList` message.
 
-*Our modifications:* We adapt the original `line_detector` package to include a new line segment detector [LSD](https://docs.opencv.org/3.4/db/d73/classcv_1_1LineSegmentDetector.html). This detector gets far more stable  and longer line segments compared to `HoughLines`, which seems to be the default.  
+*Our modifications:* We adapt the original `line_detector` package to include a new line segment detector [LSD](https://docs.opencv.org/3.4/db/d73/classcv_1_1LineSegmentDetector.html). This detector gets far more stable  and longer line segments compared to `HoughLines`, which seems to be the default.
 
 *Run it:*
 
@@ -96,31 +97,31 @@ roslaunch line_detector line_detector_node.launch veh:=neo local:=true
 ### Line Descriptor (`lane_slam/src/line_descriptor`)
 *Explanation:*
 
-This package uses _OpenCV_ functions to compute binary descriptors for a bunch of line segments, to help in matching/associating lines. Currently, this functionality is in beta, but people are welcome to play around with the code in here.  
+This package uses _OpenCV_ functions to compute binary descriptors for a bunch of line segments, to help in matching/associating lines. Currently, this functionality is in beta, but people are welcome to play around with the code in here.
 
 ### Ground projection (`lane_slam/src/ground_projection`)
 *Explanation:*
 
-This package is a copy of the `ground_projection` module from the Duckietown software stack. It takes in a list of line segments detected in the image and projects them onto the 3D ground plane using a homography matrix computed based on the extrinsic calibration parameters.  
+This package is a copy of the `ground_projection` module from the Duckietown software stack. It takes in a list of line segments detected in the image and projects them onto the 3D ground plane using a homography matrix computed based on the extrinsic calibration parameters.
 
 *Run it:*
 
 To ensure that the node runs, you must have the following.
 
-1. The robot's (eg. *neo*'s) extrinsic parameters must be placed in `lane-slam/duckietown/config/baseline/calibration/camera_extrinsic/neo.yaml`.  
-2. Edit `lane-slam/src/ground_projection/launch/ground_projection.launch`. Around line 13, where the `ground_projection` node is being launched, set the topic names. `~lineseglist_in` should contain the name of a topic to which line segments detected in an image are published to. (This is, in most cases, the topic to which the `line_detector` node publishes). `~cali_image` should contain a topic onto which the raw image is published (eg. `/neo/camera_node/image/raw`), and `camera_info` is a topic onto which camera info is published (eg. `/neo/camera_node/camera_info`)  
+1. The robot's (eg. *neo*'s) extrinsic parameters must be placed in `lane-slam/duckietown/config/baseline/calibration/camera_extrinsic/neo.yaml`.
+2. Edit `lane-slam/src/ground_projection/launch/ground_projection.launch`. Around line 13, where the `ground_projection` node is being launched, set the topic names. `~lineseglist_in` should contain the name of a topic to which line segments detected in an image are published to. (This is, in most cases, the topic to which the `line_detector` node publishes). `~cali_image` should contain a topic onto which the raw image is published (eg. `/neo/camera_node/image/raw`), and `camera_info` is a topic onto which camera info is published (eg. `/neo/camera_node/camera_info`)
 
 When this is all set, run the following, replacing `neo` with your duckiebot name.
 ```
 roslaunch ground_projection ground_projection.launch veh:=neo
-```  
+```
 
-This node will publish a message of type `SegmentList`, which contains a list of _ground-projected_ line segments (i.e., line segments on the 3D ground plane), with a topic name `/neo/ground_projection/lineseglist_out_lsd` (assuming *neo* is the name of the Duckiebot)  
+This node will publish a message of type `SegmentList`, which contains a list of _ground-projected_ line segments (i.e., line segments on the 3D ground plane), with a topic name `/neo/ground_projection/lineseglist_out_lsd` (assuming *neo* is the name of the Duckiebot)
 
 ### Line sanity (`lane_slam/src/line_sanity`)
 *Explanation:*
 
-This package takes in _ground-projected_ line segments and _filters out_ spurious lines. It subscribes to a topic that publishes a `SegmentList` message type, applies filters, and publishes the filtered line segments to another topic `filtered_segments_lsd` (again, as a `SegmentList` message type).  
+This package takes in _ground-projected_ line segments and _filters out_ spurious lines. It subscribes to a topic that publishes a `SegmentList` message type, applies filters, and publishes the filtered line segments to another topic `filtered_segments_lsd` (again, as a `SegmentList` message type).
 
 *Run it:*
 
@@ -141,22 +142,22 @@ If you need it to publish it to another topic, open `line_sanity.launch` (in the
 
 *Types of spurious lines filtered out:*
 
-1. Lines behind the robot  
-2. Lines that are not white or yellow, and cannot be confidently classified as being left or right edges of a white or yellow line (we ignore RED lines for now).  
-3. Lines that are farther ahead from the robot, above a certain distance threshold.  
-4. All lines that do not satisfy a certain angular threshold.  
+1. Lines behind the robot
+2. Lines that are not white or yellow, and cannot be confidently classified as being left or right edges of a white or yellow line (we ignore RED lines for now).
+3. Lines that are farther ahead from the robot, above a certain distance threshold.
+4. All lines that do not satisfy a certain angular threshold.
 
 ### Odometry (`lane_slam/src/odometry`)
-*Explanation:*  
+*Explanation:*
 
 The odometry module's goal is to produce an estimate of the duckiebot's position.
 We provide a package which does so based on the `wheels_cmd`, but you can easily replace our package by your one which produces position estimations.
 
-The dynamics of the differential drive which is used on the duckiebots is known and therefore we can use wheel commands to estimate velocity and angle of the duckiebot.  
+The dynamics of the differential drive which is used on the duckiebots is known and therefore we can use wheel commands to estimate velocity and angle of the duckiebot.
 
 We reuse the code provided in this [instructional exercise](https://colab.research.google.com/drive/1atYXVcpD1F7CCZCn6UEO3ps7BUpkJsvO#scrollTo=Qg-9v_zA974X) in our package.
 
-We subscribe to the `/duckiebot_name/wheels_driver_node/wheels_cmd_executed` topic which gives us a [WheelsCmdStamped](https://github.com/duckietown/Software/blob/master18/catkin_ws/src/00-infrastructure/duckietown_msgs/msg/WheelsCmdStamped.msg) message.  
+We subscribe to the `/duckiebot_name/wheels_driver_node/wheels_cmd_executed` topic which gives us a [WheelsCmdStamped](https://github.com/duckietown/Software/blob/master18/catkin_ws/src/00-infrastructure/duckietown_msgs/msg/WheelsCmdStamped.msg) message.
 
 We run the kinematics and then publish the estimated position as a [tf](http://wiki.ros.org/tf) frame relation between the `/duck` frame, and the global frame `/map`.
 
