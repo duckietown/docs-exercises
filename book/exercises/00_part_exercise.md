@@ -1,4 +1,4 @@
-# Exercises {#book:exercises status=ready nonumber=1}
+# Exercises {#book:book status=ready nonumber=1}
 
 # Image operations {#part:image-ops status=ready}
 
