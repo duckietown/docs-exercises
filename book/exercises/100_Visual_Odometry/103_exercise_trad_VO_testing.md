@@ -29,7 +29,7 @@ Go to your workspace, clone and build [this repo](https://github.com/TienPoly/vi
 There are two options for this step.
 
 ### Online
-Directly from camera of your Duckiebot as given [here](http://docs.duckietown.org/DT18/opmanual_duckiebot/out/read_camera_data.html)
+Directly from camera of your Duckiebot as given [here](https://docs.duckietown.org/DT18/opmanual_duckiebot/out/read_camera_data.html)
 
 
 ### Offline

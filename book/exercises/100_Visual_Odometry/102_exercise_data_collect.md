@@ -6,7 +6,7 @@ Requires: You have set up a Vicon system as documented in [](#exercise-Vicon)
 
 Requires: You have built a [Duckietown](https://docs.duckietown.org/DT18/opmanual_duckietown/out/index.html) in a Vicon area
 
-Requires: You have configured the [Duckiebot](http://docs.duckietown.org/DT18/opmanual_duckiebot/out/building_duckiebot_c0.html)
+Requires: You have configured the [Duckiebot](https://docs.duckietown.org/DT18/opmanual_duckiebot/out/building_duckiebot_c0.html)
 
 Result: Data for Visual Odometry training/testing including
 
@@ -62,7 +62,7 @@ You can verify the output by using the ROS utilities:
 
 
 ### Joystick
-Making your Duckiebot move as documented [here](http://docs.duckietown.org/DT18/opmanual_duckiebot/out/rc_control.html)
+Making your Duckiebot move as documented [here](https://docs.duckietown.org/DT18/opmanual_duckiebot/out/rc_control.html)
 
 
     laptop $ docker -H ![hostname].local run -dit --privileged --name joystick --network=host -v /data:/data duckietown/rpi-duckiebot-joystick-demo:master18
